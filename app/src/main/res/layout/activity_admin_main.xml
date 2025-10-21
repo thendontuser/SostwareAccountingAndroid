@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/light_gray">
+
+    <!-- App Bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_color"
+        app:title="Админ-панель"
+        app:titleTextColor="@color/white"
+        app:menu="@menu/admin_main_menu" />
+
+    <!-- Основной контент -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Карточка отчетов -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Отчеты"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"
+                        android:drawableStart="@drawable/ic_chart"
+                        android:drawablePadding="8dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFullReport"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Полный отчет ПО"
+                        android:layout_marginBottom="8dp"
+                        app:cornerRadius="8dp"
+                        style="@style/Widget.Material3.Button.OutlinedButton" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDepartmentReport"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Отчет по отделу"
+                        app:cornerRadius="8dp"
+                        style="@style/Widget.Material3.Button.OutlinedButton" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Управление данными -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Управление данными"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"
+                        android:drawableStart="@drawable/ic_database"
+                        android:drawablePadding="8dp" />
+
+                    <!-- Грид с кнопками управления -->
+                    <androidx.gridlayout.widget.GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        app:rowOrderPreserved="false"
+                        app:columnOrderPreserved="false">
+
+                        <!-- Пользователи -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_users"
+                                    android:tint="@color/primary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Пользователи"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Программы -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_software"
+                                    android:tint="@color/primary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Программы"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Устройства -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_devices"
+                                    android:tint="@color/primary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Устройства"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Отделы -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_departments"
+                                    android:tint="@color/primary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Отделы"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Производители -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_manufacturers"
+                                    android:tint="@color/primary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Производители"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Заявки -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="16dp">
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_requests"
+                                    android:tint="@color/primary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Заявки"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginTop="8dp"
+                                    android:gravity="center" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </androidx.gridlayout.widget.GridLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
