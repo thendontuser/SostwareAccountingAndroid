@@ -31,4 +31,7 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE role = :role")
     fun getUsersByRole(role: String): Flow<List<User>>
+
+    @Query("SELECT COUNT(*) FROM users WHERE login = :login")
+    suspend fun checkLoginExists(login: String): Int
 }

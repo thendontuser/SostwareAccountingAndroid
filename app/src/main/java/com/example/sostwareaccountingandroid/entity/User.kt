@@ -31,4 +31,12 @@ data class User(
     val role: String, // "Администратор", "Пользователь"
 
     val departmentId: Long? = null,
-)
+) {
+    fun getFullName(): String {
+        return if (patronymic != null) {
+            "$lastName $firstName $patronymic"
+        } else {
+            "$lastName $firstName"
+        }
+    }
+}
