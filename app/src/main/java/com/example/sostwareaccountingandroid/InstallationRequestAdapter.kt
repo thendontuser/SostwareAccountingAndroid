@@ -1,8 +1,20 @@
 package com.example.sostwareaccountingandroid
 
+import android.icu.text.SimpleDateFormat
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.ListAdapter
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.example.sostwareaccountingandroid.databinding.ItemRequestBinding
+import com.example.sostwareaccountingandroid.entity.InstallationRequest
+import java.util.Date
+import java.util.Locale
+
 class InstallationRequestAdapter(
     private val onItemClick: (InstallationRequest) -> Unit
-) : ListAdapter<InstallationRequest, InstallationRequestAdapter.RequestViewHolder>(
+) : androidx.recyclerview.widget.ListAdapter<InstallationRequest, InstallationRequestAdapter.RequestViewHolder>(
     DiffCallback
 ) {
 
@@ -37,9 +49,9 @@ class InstallationRequestAdapter(
 
             // Установка цвета статуса
             val statusColor = when (request.status) {
-                "Установлено" -> R.color.success_color
-                "На рассмотрении" -> R.color.warning_color
-                "Отклонено" -> R.color.error_color
+                "Установлено" -> R.color.success
+                "На рассмотрении" -> R.color.warning
+                "Отклонено" -> R.color.error
                 else -> R.color.gray
             }
 

@@ -1,9 +1,11 @@
 package com.example.sostwareaccountingandroid.entity
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ForeignKey
+import kotlinx.android.parcel.Parcelize
 
 @Entity(
     tableName = "users",
@@ -16,6 +18,7 @@ import androidx.room.ForeignKey
         )
     ]
 )
+@kotlinx.parcelize.Parcelize
 data class User(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
@@ -31,7 +34,7 @@ data class User(
     val role: String, // "Администратор", "Пользователь"
 
     val departmentId: Long? = null,
-) {
+) : Parcelable {
     fun getFullName(): String {
         return if (patronymic != null) {
             "$lastName $firstName $patronymic"

@@ -88,9 +88,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_report"
                         android:layout_marginEnd="12dp"
-                        android:tint="@color/primary_color" />
+                        app:tint="@color/primary_color" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -102,8 +101,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_chevron_right"
-                        android:tint="@color/gray" />
+                        app:tint="@color/gray" />
 
                 </LinearLayout>
 
@@ -116,7 +114,6 @@
                 android:layout_height="wrap_content"
                 android:text="Подать заявку"
                 android:textSize="16sp"
-                android:drawableStart="@drawable/ic_add"
                 android:drawablePadding="8dp"
                 app:cornerRadius="12dp"
                 android:backgroundTint="@color/primary_color" />

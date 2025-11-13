@@ -48,7 +48,6 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="12dp"
-                        android:drawableStart="@drawable/ic_chart"
                         android:drawablePadding="8dp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -92,16 +91,15 @@
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginBottom="12dp"
-                        android:drawableStart="@drawable/ic_database"
                         android:drawablePadding="8dp" />
 
                     <!-- Грид с кнопками управления -->
-                    <androidx.gridlayout.widget.GridLayout
+                    <!--<androidx.gridlayout.widget.GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:columnCount="2"
                         app:rowOrderPreserved="false"
-                        app:columnOrderPreserved="false">
+                        app:columnOrderPreserved="false">-->
 
                         <!-- Пользователи -->
                         <com.google.android.material.card.MaterialCardView
@@ -110,8 +108,7 @@
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            app:layout_columnWeight="1"
-                            app:layout_rowWeight="1">
+                            >
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -126,8 +123,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:src="@drawable/ic_users"
-                                    android:tint="@color/primary_color" />
+                                    app:tint="@color/primary_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -149,8 +145,7 @@
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            app:layout_columnWeight="1"
-                            app:layout_rowWeight="1">
+                            >
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -165,8 +160,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:src="@drawable/ic_software"
-                                    android:tint="@color/primary_color" />
+                                    app:tint="@color/primary_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -188,8 +182,8 @@
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            app:layout_columnWeight="1"
-                            app:layout_rowWeight="1">
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -204,8 +198,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:src="@drawable/ic_devices"
-                                    android:tint="@color/primary_color" />
+                                    app:tint="@color/primary_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -227,8 +220,8 @@
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            app:layout_columnWeight="1"
-                            app:layout_rowWeight="1">
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -243,8 +236,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:src="@drawable/ic_departments"
-                                    android:tint="@color/primary_color" />
+                                    app:tint="@color/primary_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -266,8 +258,8 @@
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            app:layout_columnWeight="1"
-                            app:layout_rowWeight="1">
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -282,8 +274,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:src="@drawable/ic_manufacturers"
-                                    android:tint="@color/primary_color" />
+                                    app:tint="@color/primary_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -305,8 +296,8 @@
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            app:layout_columnWeight="1"
-                            app:layout_rowWeight="1">
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -321,8 +312,7 @@
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
-                                    android:src="@drawable/ic_requests"
-                                    android:tint="@color/primary_color" />
+                                    app:tint="@color/primary_color" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -337,7 +327,7 @@
 
                         </com.google.android.material.card.MaterialCardView>
 
-                    </androidx.gridlayout.widget.GridLayout>
+                    <!--</androidx.gridlayout.widget.GridLayout>-->
 
                 </LinearLayout>
 

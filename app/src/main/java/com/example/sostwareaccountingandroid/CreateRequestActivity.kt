@@ -1,10 +1,22 @@
 package com.example.sostwareaccountingandroid
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.sostwareaccountingandroid.databinding.ActivityCreateRequestBinding
+import com.example.sostwareaccountingandroid.entity.Device
+import com.example.sostwareaccountingandroid.entity.InstallationRequest
+import com.example.sostwareaccountingandroid.entity.Software
+import com.example.sostwareaccountingandroid.entity.User
+import com.example.sostwareaccountingandroid.viewmodel.RequestViewModel
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class CreateRequestActivity : AppCompatActivity() {
 
@@ -22,8 +34,12 @@ class CreateRequestActivity : AppCompatActivity() {
         binding = ActivityCreateRequestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        currentUser = intent.getParcelableExtra("USER")
-        requestViewModel = ViewModelProvider(this)[RequestViewModel::class.java]
+        currentUser = if (intent.hasExtra("USER")) {
+            intent.getParcelableExtra("USER", User::class.java)
+        } else {
+            null
+        }
+        requestViewModel = RequestViewModel() // Просто создаем экземпляр
 
         setupUI()
         setupClickListeners()
@@ -32,10 +48,11 @@ class CreateRequestActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        softwareAdapter = ArrayAdapter(this, R.layout.dropdown_item, mutableListOf())
+        // Используем стандартный layout вместо dropdown_item
+        softwareAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, mutableListOf())
         binding.actvSoftware.setAdapter(softwareAdapter)
 
-        deviceAdapter = ArrayAdapter(this, R.layout.dropdown_item, mutableListOf())
+        deviceAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, mutableListOf())
         binding.actvDevice.setAdapter(deviceAdapter)
     }
 
@@ -50,32 +67,42 @@ class CreateRequestActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        requestViewModel.softwareList.observe(this) { software ->
-            softwareList = software
-            val softwareNames = software.map { "${it.name} v${it.version}" }
-            softwareAdapter.clear()
-            softwareAdapter.addAll(softwareNames)
+        // Используем collect для StateFlow вместо observe
+        lifecycleScope.launch {
+            requestViewModel.softwareList.collect { software ->
+                softwareList = software
+                val softwareNames = software.map { "${it.name} v${it.version}" }
+                softwareAdapter.clear()
+                softwareAdapter.addAll(softwareNames)
+            }
         }
 
-        requestViewModel.deviceList.observe(this) { devices ->
-            deviceList = devices
-            val deviceNames = devices.map { "${it.name} (${it.osName})" }
-            deviceAdapter.clear()
-            deviceAdapter.addAll(deviceNames)
+        lifecycleScope.launch {
+            requestViewModel.deviceList.collect { devices ->
+                deviceList = devices
+                val deviceNames = devices.map { "${it.name} (${it.osName})" }
+                deviceAdapter.clear()
+                deviceAdapter.addAll(deviceNames)
+            }
         }
 
-        requestViewModel.submissionResult.observe(this) { result ->
-            binding.progressBar.visibility = View.GONE
+        lifecycleScope.launch {
+            requestViewModel.submissionState.collect { result ->
+                binding.progressBar.visibility = View.GONE
 
-            when (result) {
-                is SubmissionResult.Success -> {
-                    showSuccess("Заявка успешно отправлена!")
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        finish()
-                    }, 1500)
-                }
-                is SubmissionResult.Error -> {
-                    showError(result.message)
+                when (result) {
+                    is RequestViewModel.SubmissionState.Success -> {
+                        showSuccess("Заявка успешно отправлена!")
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            finish()
+                        }, 1500)
+                    }
+                    is RequestViewModel.SubmissionState.Error -> {
+                        showError(result.message)
+                    }
+                    else -> {
+                        // Обработка других состояний
+                    }
                 }
             }
         }
@@ -140,7 +167,7 @@ class CreateRequestActivity : AppCompatActivity() {
 
     private fun showSuccess(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
-            .setBackgroundTint(ContextCompat.getColor(this, R.color.success_color))
+            .setBackgroundTint(ContextCompat.getColor(this, R.color.light_gray)) // Используем существующий цвет
             .show()
     }
 
