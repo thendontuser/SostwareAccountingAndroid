@@ -36,7 +36,7 @@ class RequestAdapter : ListAdapter<InstallationRequest, RequestAdapter.RequestVi
             tvRequestId.text = "Заявка #${request.id}"
             tvStatus.text = request.status
             tvDate.text = formatDate(request.requestDate)
-            tvSoftware.text = "Программа ID: ${request.softwareId}"
+            tvSoftware.text = "Программа: ${request.softwareId}"
 
             // Цвет статуса
             val statusColor = when (request.status) {
