@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
+    android:layout_margin="4dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp">
 
@@ -12,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="?selectableItemBackground">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,13 +38,21 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvRequestDate"
+            android:id="@+id/tvSoftware"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Программа: Microsoft Office"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="01.01.2024"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/gray"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="2dp" />
 
     </LinearLayout>
 

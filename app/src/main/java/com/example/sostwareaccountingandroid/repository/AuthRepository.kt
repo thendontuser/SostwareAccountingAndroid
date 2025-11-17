@@ -1,11 +1,12 @@
 package com.example.sostwareaccountingandroid.repository
 
+import com.example.sostwareaccountingandroid.dao.DepartmentDao
 import com.example.sostwareaccountingandroid.dao.UserDao
 import com.example.sostwareaccountingandroid.entity.User
 import kotlinx.coroutines.flow.Flow
 import java.security.MessageDigest
 
-class AuthRepository(private val userDao: UserDao) {
+class AuthRepository(private val userDao: UserDao, private val departmentDao: DepartmentDao) {
 
     suspend fun registerUser(user: User): AuthResult {
         return try {

@@ -39,6 +39,10 @@ class UserRepository(private val userDao: UserDao) {
         return userDao.getUsersByDepartment(departmentId)
     }
 
+    suspend fun getUserById(userId: Long): User? {
+        return userDao.getUserById(userId)
+    }
+
     suspend fun updateUser(user: User): Result<Unit> {
         return try {
             userDao.update(user)

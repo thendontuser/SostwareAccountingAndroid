@@ -3,7 +3,6 @@ package com.example.sostwareaccountingandroid
 import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ListAdapter
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -44,7 +43,7 @@ class InstallationRequestAdapter(
 
         fun bind(request: InstallationRequest) {
             binding.tvRequestId.text = "Заявка #${request.id}"
-            binding.tvRequestDate.text = formatDate(request.requestDate)
+            binding.tvDate.text = formatDate(request.requestDate)
             binding.tvStatus.text = request.status
 
             // Установка цвета статуса

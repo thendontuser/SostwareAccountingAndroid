@@ -167,7 +167,7 @@ class CreateRequestActivity : AppCompatActivity() {
 
     private fun showSuccess(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
-            .setBackgroundTint(ContextCompat.getColor(this, R.color.light_gray)) // Используем существующий цвет
+            .setBackgroundTint(ContextCompat.getColor(this, R.color.gray)) // Используем существующий цвет
             .show()
     }
 

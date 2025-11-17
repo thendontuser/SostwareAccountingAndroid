@@ -26,6 +26,9 @@ interface DepartmentDao {
     @Query("SELECT * FROM departments WHERE id = :departmentId")
     suspend fun getDepartmentById(departmentId: Long): Department?
 
+    @Query("SELECT * FROM departments WHERE name = :name")
+    suspend fun getDepartmentByName(name: String): Department?
+
     @Query("SELECT COUNT(*) FROM users WHERE departmentId = :departmentId")
     suspend fun getUserCountInDepartment(departmentId: Long): Int
 

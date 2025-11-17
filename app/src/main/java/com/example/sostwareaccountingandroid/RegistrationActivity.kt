@@ -1,6 +1,7 @@
 package com.example.sostwareaccountingandroid
 
 import android.os.Bundle
+import android.os.Looper
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -8,14 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.sostwareaccountingandroid.databinding.ActivityRegistrationBinding
 import com.example.sostwareaccountingandroid.di.ServiceLocator
+import com.example.sostwareaccountingandroid.entity.Department
 import com.example.sostwareaccountingandroid.entity.User
 import com.example.sostwareaccountingandroid.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
+import android.os.Handler
 
 class RegistrationActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityRegistrationBinding
     private val authViewModel: AuthViewModel by viewModels { ServiceLocator.getAuthViewModelFactory() }
+    private lateinit var departmentAdapter: ArrayAdapter<String>
+    private var departments = listOf<Department>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +29,7 @@ class RegistrationActivity : AppCompatActivity() {
         setupUI()
         setupObservers()
         setupClickListeners()
+        loadDepartments()
     }
 
     private fun setupUI() {
@@ -33,14 +38,12 @@ class RegistrationActivity : AppCompatActivity() {
         val roleAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, roles)
         binding.actvRole.setAdapter(roleAdapter)
 
-        // TODO: Загрузить отделы из базы данных
-        val departments = arrayOf("Факультет информационных технологий", "Факультет математики")
-        val departmentAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, departments)
+        // Инициализация адаптера для отделов
+        departmentAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, mutableListOf())
         binding.actvDepartment.setAdapter(departmentAdapter)
     }
 
     private fun setupObservers() {
-        // Наблюдаем за состоянием регистрации с помощью StateFlow
         lifecycleScope.launch {
             authViewModel.registrationState.collect { state ->
                 when (state) {
@@ -51,7 +54,8 @@ class RegistrationActivity : AppCompatActivity() {
                         showLoading(false)
                         showSuccess("Регистрация успешна!")
                         // Возвращаемся к логину через 2 секунды
-                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            setResult(RESULT_OK)
                             finish()
                         }, 2000)
                     }
@@ -62,6 +66,24 @@ class RegistrationActivity : AppCompatActivity() {
                     is AuthViewModel.RegistrationState.Idle -> {
                         showLoading(false)
                     }
+                }
+            }
+        }
+    }
+
+    private fun loadDepartments() {
+        lifecycleScope.launch {
+            // Загружаем отделы из базы данных
+            val departmentRepo = ServiceLocator.getDepartmentRepository()
+            departmentRepo.getAllDepartments().collect { departmentsList ->
+                departments = departmentsList
+                val departmentNames = departmentsList.map { it.name }
+                departmentAdapter.clear()
+                departmentAdapter.addAll(departmentNames)
+
+                // Если отделы загружены, выбираем первый по умолчанию
+                if (departmentNames.isNotEmpty()) {
+                    binding.actvDepartment.setText(departmentNames[0], false)
                 }
             }
         }
@@ -87,20 +109,26 @@ class RegistrationActivity : AppCompatActivity() {
         val departmentName = binding.actvDepartment.text.toString().trim()
 
         if (validateInput(firstName, lastName, login, password, role, departmentName)) {
-            // TODO: Получить departmentId по имени отдела
-            val departmentId = 1L // Временное значение
+            lifecycleScope.launch {
+                // Ищем ID отдела по имени
+                val departmentRepo = ServiceLocator.getDepartmentRepository()
+                val department = departmentRepo.getDepartmentByName(departmentName)
 
-            val user = User(
-                firstName = firstName,
-                lastName = lastName,
-                patronymic = patronymic.ifEmpty { null },
-                login = login,
-                passwordHash = password, // Будет захешировано в репозитории
-                role = role,
-                departmentId = departmentId
-            )
-
-            authViewModel.registerUser(user)
+                if (department != null) {
+                    val user = User(
+                        firstName = firstName,
+                        lastName = lastName,
+                        patronymic = patronymic.ifEmpty { null },
+                        login = login,
+                        passwordHash = password, // Будет захешировано в репозитории
+                        role = role,
+                        departmentId = department.id
+                    )
+                    authViewModel.registerUser(user)
+                } else {
+                    showError("Выбранный отдел не найден")
+                }
+            }
         }
     }
 

@@ -26,10 +26,10 @@ class DatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
 
         // Создание отделов
         val departments = listOf(
-            Department(id = 1, name = "Факультет информационных технологий"),
-            Department(id = 2, name = "Факультет математики"),
-            Department(id = 3, name = "Факультет физики"),
-            Department(4, name = "Факультет химии")
+            Department(id = 1, name = "Факультет информационных технологий и радиоэлектроники"),
+            Department(id = 2, name = "Машиностроительный факультет"),
+            Department(id = 3, name = "Гуманитарный факультет"),
+            Department(4, name = "Юридический факультет")
         )
 
         departments.forEach { department ->

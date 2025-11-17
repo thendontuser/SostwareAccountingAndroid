@@ -4,15 +4,24 @@ import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.sostwareaccountingandroid.DataBase.AppDatabase
 import com.example.sostwareaccountingandroid.repository.AuthRepository
+import com.example.sostwareaccountingandroid.repository.DepartmentRepository
+import com.example.sostwareaccountingandroid.repository.UserRepository
 import com.example.sostwareaccountingandroid.viewmodel.AuthViewModel
 
 object ServiceLocator {
     private var database: AppDatabase? = null
     private var authRepository: AuthRepository? = null
+    private var departmentRepository: DepartmentRepository? = null
+    private var userRepository: UserRepository? = null
 
     fun initialize(context: Context) {
         database = AppDatabase.getInstance(context)
-        authRepository = AuthRepository(database!!.userDao())
+        authRepository = AuthRepository(
+            database!!.userDao(),
+            database!!.departmentDao()
+        )
+        departmentRepository = DepartmentRepository(database!!.departmentDao())
+        userRepository = UserRepository(database!!.userDao())
     }
 
     fun getAuthRepository(): AuthRepository {
@@ -21,6 +30,14 @@ object ServiceLocator {
 
     fun getAuthViewModelFactory(): ViewModelProvider.Factory {
         return AuthViewModelFactory(getAuthRepository())
+    }
+
+    fun getDepartmentRepository(): DepartmentRepository {
+        return departmentRepository ?: throw IllegalStateException("ServiceLocator not initialized")
+    }
+
+    fun getUserRepository(): UserRepository {
+        return userRepository ?: throw IllegalStateException("ServiceLocator not initialized")
     }
 }
 
