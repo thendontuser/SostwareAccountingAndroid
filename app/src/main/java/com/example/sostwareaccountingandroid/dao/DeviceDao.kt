@@ -1,43 +1,26 @@
 package com.example.sostwareaccountingandroid.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Embedded
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.sostwareaccountingandroid.entity.Device
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DeviceDao {
 
-    @Insert
-    suspend fun insert(device: Device): Long
-
-    @Update
-    suspend fun update(device: Device)
-
-    @Delete
-    suspend fun delete(device: Device)
+    @Query("SELECT * FROM devices ORDER BY name")
+    suspend fun getAllDevices(): List<Device>
 
     @Query("SELECT * FROM devices WHERE id = :deviceId")
     suspend fun getDeviceById(deviceId: Long): Device?
 
-    @Query("SELECT * FROM devices WHERE departmentId = :departmentId")
-    fun getDevicesByDepartment(departmentId: Long): Flow<List<Device>>
+    @Insert
+    suspend fun insertDevice(device: Device): Long
 
-    // Получение устройств с информацией об отделе
-    @Query("""
-        SELECT devices.*, departments.name as departmentName 
-        FROM devices 
-        LEFT JOIN departments ON devices.departmentId = departments.id
-        ORDER BY devices.name
-    """)
-    fun getDevicesWithDepartment(): Flow<List<DeviceWithDepartment>>
+    @Update
+    suspend fun updateDevice(device: Device)
 
-    data class DeviceWithDepartment(
-        @Embedded val device: Device,
-        val departmentName: String?
-    )
+    @Delete
+    suspend fun deleteDevice(device: Device)
+
+    @Query("SELECT * FROM devices WHERE name LIKE :query ORDER BY name")
+    suspend fun searchDevicesByName(query: String): List<Device>
 }

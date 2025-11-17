@@ -87,7 +87,7 @@ class DatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
         )
 
         softwareList.forEach { software ->
-            database.softwareDao().insert(software)
+            database.softwareDao().insertSoftware(software)
         }
 
         // Создание тестовых устройств
@@ -109,7 +109,7 @@ class DatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
         )
 
         devices.forEach { device ->
-            database.deviceDao().insert(device)
+            database.deviceDao().insertDevice(device)
         }
     }
 }

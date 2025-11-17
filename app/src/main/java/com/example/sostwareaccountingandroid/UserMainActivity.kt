@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sostwareaccountingandroid.adapter.RequestAdapter
 import com.example.sostwareaccountingandroid.databinding.ActivityUserMainBinding
 import com.example.sostwareaccountingandroid.di.ServiceLocator
+import com.example.sostwareaccountingandroid.entity.Device
 import com.example.sostwareaccountingandroid.entity.InstallationRequest
+import com.example.sostwareaccountingandroid.entity.Software
 import com.example.sostwareaccountingandroid.entity.User
 import kotlinx.coroutines.launch
 
@@ -26,27 +28,24 @@ class UserMainActivity : AppCompatActivity() {
     private var currentUser: User? = null
     private var currentUserId: Long = 0
 
+    // Списки для хранения данных из БД
+    private var softwareList: List<Software> = emptyList()
+    private var deviceList: List<Device> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            try {
-            binding = ActivityUserMainBinding.inflate(layoutInflater)
-            setContentView(binding.root)
+        binding = ActivityUserMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-            currentUserId = intent.getLongExtra("USER_ID", 0)
-            println("DEBUG: UserMainActivity для пользователя ID: $currentUserId")
+        currentUserId = intent.getLongExtra("USER_ID", 0)
+        println("DEBUG: UserMainActivity для пользователя ID: $currentUserId")
 
-            setupToolbar()
-            setupRecyclerView()
-            setupUI()
-            setupClickListeners()
-            loadUserData()
-            loadMockData() // Временные данные для теста
-
-        } catch (e: Exception) {
-            println("DEBUG: Ошибка в UserMainActivity: ${e.message}")
-            e.printStackTrace()
-            createFallbackLayout()
-        }
+        setupToolbar()
+        setupRecyclerView()
+        setupUI()
+        setupClickListeners()
+        loadUserData()
+        loadDataFromDatabase()
     }
 
     private fun setupToolbar() {
@@ -89,7 +88,6 @@ class UserMainActivity : AppCompatActivity() {
                 currentUser = userRepository.getUserById(currentUserId)
 
                 if (currentUser != null) {
-                    // Обновляем тулбар с именем пользователя
                     val userFullName = getUserDisplayName(currentUser!!)
                     supportActionBar?.subtitle = userFullName
                     println("DEBUG: Загружен пользователь: $userFullName")
@@ -100,72 +98,132 @@ class UserMainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 println("DEBUG: Ошибка загрузки пользователя: ${e.message}")
                 supportActionBar?.subtitle = "Ошибка загрузки"
+                Toast.makeText(this@UserMainActivity, "Ошибка загрузки данных пользователя", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun loadMockData() {
-        // Временные данные для тестирования
-        val softwareList = listOf("Microsoft Office 2021", "Adobe Photoshop CC", "IntelliJ IDEA", "Visual Studio Code")
-        softwareAdapter.addAll(softwareList)
+    private fun loadDataFromDatabase() {
+        lifecycleScope.launch {
+            try {
+                // Загружаем данные параллельно
+                val softwareDeferred = lifecycleScope.launch { loadSoftware() }
+                val devicesDeferred = lifecycleScope.launch { loadDevices() }
+                val requestsDeferred = lifecycleScope.launch { loadUserRequests() }
 
-        val deviceList = listOf("Компьютер кафедры (Windows 11)", "Ноутбук преподавателя (Windows 10)", "Сервер (Linux)")
-        deviceAdapter.addAll(deviceList)
+                // Ждем завершения всех загрузок
+                softwareDeferred.join()
+                devicesDeferred.join()
+                requestsDeferred.join()
 
-        // Временные заявки для демонстрации
-        val mockRequests = listOf(
-            InstallationRequest(
-                id = 1,
-                softwareId = 1,
-                deviceId = 1,
-                userId = currentUserId,
-                requestDate = System.currentTimeMillis() - 86400000, // вчера
-                status = "На рассмотрении",
-                comment = "Необходимо для учебного процесса"
-            ),
-            InstallationRequest(
-                id = 2,
-                softwareId = 2,
-                deviceId = 2,
-                userId = currentUserId,
-                requestDate = System.currentTimeMillis() - 172800000, // 2 дня назад
-                status = "Установлено",
-                comment = null
-            )
-        )
+                println("DEBUG: Все данные успешно загружены из БД")
 
-        requestAdapter.submitList(mockRequests)
-        updateEmptyState(mockRequests.isEmpty())
+            } catch (e: Exception) {
+                println("DEBUG: Ошибка загрузки данных из БД: ${e.message}")
+                e.printStackTrace()
+                Toast.makeText(this@UserMainActivity, "Ошибка загрузки данных", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private suspend fun loadSoftware() {
+        try {
+            val softwareRepository = ServiceLocator.getSoftwareRepository()
+            softwareList = softwareRepository.getAllSoftware()
+
+            val softwareNames = softwareList.map { it.name }
+            softwareAdapter.clear()
+            softwareAdapter.addAll(softwareNames)
+            softwareAdapter.notifyDataSetChanged()
+
+            println("DEBUG: Загружено ПО: ${softwareNames.size} элементов")
+        } catch (e: Exception) {
+            println("DEBUG: Ошибка загрузки ПО: ${e.message}")
+            throw e
+        }
+    }
+
+    private suspend fun loadDevices() {
+        try {
+            val deviceRepository = ServiceLocator.getDeviceRepository()
+            deviceList = deviceRepository.getAllDevices()
+
+            val deviceNames = deviceList.map { it.name }
+            deviceAdapter.clear()
+            deviceAdapter.addAll(deviceNames)
+            deviceAdapter.notifyDataSetChanged()
+
+            println("DEBUG: Загружено устройств: ${deviceNames.size} элементов")
+        } catch (e: Exception) {
+            println("DEBUG: Ошибка загрузки устройств: ${e.message}")
+            throw e
+        }
+    }
+
+    private suspend fun loadUserRequests() {
+        try {
+            val requestRepository = ServiceLocator.getInstallationRequestRepository()
+            val userRequests = requestRepository.getRequestsByUserId(currentUserId)
+
+            requestAdapter.submitList(userRequests)
+            updateEmptyState(userRequests.isEmpty())
+
+            println("DEBUG: Загружено заявок: ${userRequests.size} элементов")
+        } catch (e: Exception) {
+            println("DEBUG: Ошибка загрузки заявок: ${e.message}")
+            throw e
+        }
     }
 
     private fun submitNewRequest() {
-        val software = binding.actvSoftware.text.toString().trim()
-        val device = binding.actvDevice.text.toString().trim()
+        val softwareName = binding.actvSoftware.text.toString().trim()
+        val deviceName = binding.actvDevice.text.toString().trim()
         val comment = binding.etComment.text.toString().trim()
 
-        if (validateRequest(software, device)) {
-            // TODO: Сохранить заявку в базу данных
-            Toast.makeText(this, "Заявка отправлена на рассмотрение!", Toast.LENGTH_LONG).show()
+        if (validateRequest(softwareName, deviceName)) {
+            lifecycleScope.launch {
+                try {
+                    // Находим ID выбранного ПО и устройства
+                    val selectedSoftware = softwareList.find { it.name == softwareName }
+                    val selectedDevice = deviceList.find { it.name == deviceName }
 
-            // Очищаем форму
-            binding.actvSoftware.text.clear()
-            binding.actvDevice.text.clear()
-            binding.etComment.text?.clear()
+                    if (selectedSoftware == null || selectedDevice == null) {
+                        Toast.makeText(this@UserMainActivity, "Ошибка: неверно выбраны ПО или устройство", Toast.LENGTH_LONG).show()
+                        return@launch
+                    }
 
-            // Обновляем список (временно добавляем mock-заявку)
-            val currentList = requestAdapter.currentList.toMutableList()
-            val newRequest = InstallationRequest(
-                id = (currentList.maxOfOrNull { it.id } ?: 0) + 1,
-                softwareId = 1,
-                deviceId = 1,
-                userId = currentUserId,
-                requestDate = System.currentTimeMillis(),
-                status = "На рассмотрении",
-                comment = if (comment.isNotEmpty()) comment else null
-            )
-            currentList.add(0, newRequest)
-            requestAdapter.submitList(currentList)
-            updateEmptyState(false)
+                    // Создаем новую заявку
+                    val newRequest = InstallationRequest(
+                        id = 0, // БД сама сгенерирует ID
+                        softwareId = selectedSoftware.id,
+                        deviceId = selectedDevice.id,
+                        userId = currentUserId,
+                        requestDate = System.currentTimeMillis(),
+                        status = "На рассмотрении",
+                        comment = if (comment.isNotEmpty()) comment else null
+                    )
+
+                    // Сохраняем в БД
+                    val requestRepository = ServiceLocator.getInstallationRequestRepository()
+                    requestRepository.insertRequest(newRequest)
+
+                    // Обновляем список заявок
+                    loadUserRequests()
+
+                    // Очищаем форму
+                    binding.actvSoftware.text.clear()
+                    binding.actvDevice.text.clear()
+                    binding.etComment.text?.clear()
+
+                    Toast.makeText(this@UserMainActivity, "Заявка отправлена на рассмотрение!", Toast.LENGTH_LONG).show()
+                    println("DEBUG: Новая заявка создана для пользователя $currentUserId")
+
+                } catch (e: Exception) {
+                    println("DEBUG: Ошибка создания заявки: ${e.message}")
+                    e.printStackTrace()
+                    Toast.makeText(this@UserMainActivity, "Ошибка отправки заявки", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
@@ -198,8 +256,8 @@ class UserMainActivity : AppCompatActivity() {
     }
 
     private fun showAllRequests() {
-        Toast.makeText(this, "Показать все заявки", Toast.LENGTH_SHORT).show()
         // TODO: Переход на экран со всеми заявками
+        Toast.makeText(this, "Функция 'Все заявки' в разработке", Toast.LENGTH_SHORT).show()
     }
 
     private fun updateEmptyState(isEmpty: Boolean) {
@@ -232,32 +290,5 @@ class UserMainActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
-    }
-
-    private fun createFallbackLayout() {
-        val userName = if (currentUser != null) {
-            getUserDisplayName(currentUser!!)
-        } else {
-            "Пользователь ID: $currentUserId"
-        }
-
-        val textView = android.widget.TextView(this).apply {
-            text = "Добро пожаловать, $userName!"
-            textSize = 18f
-            setPadding(50, 50, 50, 50)
-        }
-
-        val button = android.widget.Button(this).apply {
-            text = "Выйти"
-            setOnClickListener { logout() }
-        }
-
-        val layout = android.widget.LinearLayout(this).apply {
-            orientation = android.widget.LinearLayout.VERTICAL
-            addView(textView)
-            addView(button)
-        }
-
-        setContentView(layout)
     }
 }
