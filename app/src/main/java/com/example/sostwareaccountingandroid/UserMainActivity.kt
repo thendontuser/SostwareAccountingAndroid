@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sostwareaccountingandroid.adapter.RequestAdapter
+import com.example.sostwareaccountingandroid.adapter.RequestWithDetails
 import com.example.sostwareaccountingandroid.databinding.ActivityUserMainBinding
 import com.example.sostwareaccountingandroid.di.ServiceLocator
 import com.example.sostwareaccountingandroid.entity.Device
@@ -165,10 +166,22 @@ class UserMainActivity : AppCompatActivity() {
             val requestRepository = ServiceLocator.getInstallationRequestRepository()
             val userRequests = requestRepository.getRequestsByUserId(currentUserId)
 
-            requestAdapter.submitList(userRequests)
-            updateEmptyState(userRequests.isEmpty())
+            // Загружаем дополнительные данные
+            val softwareRepository = ServiceLocator.getSoftwareRepository()
+            val deviceRepository = ServiceLocator.getDeviceRepository()
 
-            println("DEBUG: Загружено заявок: ${userRequests.size} элементов")
+            val requestsWithDetails = userRequests.map { request ->
+                RequestWithDetails(
+                    request = request,
+                    softwareName = softwareRepository.getSoftwareById(request.softwareId)?.name
+                        ?: "Неизвестно",
+                    deviceName = deviceRepository.getDeviceById(request.deviceId)?.name
+                        ?: "Неизвестно"
+                )
+            }
+
+            requestAdapter.submitList(requestsWithDetails)
+            updateEmptyState(userRequests.isEmpty())
         } catch (e: Exception) {
             println("DEBUG: Ошибка загрузки заявок: ${e.message}")
             throw e

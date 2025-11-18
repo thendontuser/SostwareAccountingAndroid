@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sostwareaccountingandroid.R
-import com.example.sostwareaccountingandroid.entity.InstallationRequest
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RequestAdapter : ListAdapter<InstallationRequest, RequestAdapter.RequestViewHolder>(DiffCallback) {
+class RequestAdapter : ListAdapter<RequestWithDetails, RequestAdapter.RequestViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -32,14 +31,14 @@ class RequestAdapter : ListAdapter<InstallationRequest, RequestAdapter.RequestVi
         private val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         private val tvSoftware: TextView = itemView.findViewById(R.id.tvSoftware)
 
-        fun bind(request: InstallationRequest) {
-            tvRequestId.text = "Заявка #${request.id}"
-            tvStatus.text = request.status
-            tvDate.text = formatDate(request.requestDate)
-            tvSoftware.text = "Программа: ${request.softwareId}"
+        fun bind(request: RequestWithDetails) {
+            tvRequestId.text = "Заявка #${request.request.id}"
+            tvStatus.text = request.request.status
+            tvDate.text = formatDate(request.request.requestDate)
+            tvSoftware.text = "Программа: ${request.softwareName}"
 
             // Цвет статуса
-            val statusColor = when (request.status) {
+            val statusColor = when (request.request.status) {
                 "Установлено" -> R.color.success
                 "На рассмотрении" -> R.color.warning
                 "Отклонено" -> R.color.error
@@ -54,12 +53,12 @@ class RequestAdapter : ListAdapter<InstallationRequest, RequestAdapter.RequestVi
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<InstallationRequest>() {
-        override fun areItemsTheSame(oldItem: InstallationRequest, newItem: InstallationRequest): Boolean {
-            return oldItem.id == newItem.id
+    companion object DiffCallback : DiffUtil.ItemCallback<RequestWithDetails>() {
+        override fun areItemsTheSame(oldItem: RequestWithDetails, newItem: RequestWithDetails): Boolean {
+            return oldItem.request.id == newItem.request.id
         }
 
-        override fun areContentsTheSame(oldItem: InstallationRequest, newItem: InstallationRequest): Boolean {
+        override fun areContentsTheSame(oldItem: RequestWithDetails, newItem: RequestWithDetails): Boolean {
             return oldItem == newItem
         }
     }
