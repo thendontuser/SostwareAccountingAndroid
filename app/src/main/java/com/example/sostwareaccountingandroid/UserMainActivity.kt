@@ -269,8 +269,9 @@ class UserMainActivity : AppCompatActivity() {
     }
 
     private fun showAllRequests() {
-        // TODO: Переход на экран со всеми заявками
-        Toast.makeText(this, "Функция 'Все заявки' в разработке", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, AllRequestsActivity::class.java)
+        intent.putExtra("USER_ID", currentUserId)
+        startActivity(intent)
     }
 
     private fun updateEmptyState(isEmpty: Boolean) {

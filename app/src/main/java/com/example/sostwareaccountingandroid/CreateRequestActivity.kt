@@ -15,7 +15,6 @@ import com.example.sostwareaccountingandroid.entity.Software
 import com.example.sostwareaccountingandroid.entity.User
 import com.example.sostwareaccountingandroid.viewmodel.RequestViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CreateRequestActivity : AppCompatActivity() {
