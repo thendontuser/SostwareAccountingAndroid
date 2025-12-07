@@ -24,6 +24,36 @@
             android:theme="@style/Theme.SoftwareAccountingAndroid"
             android:exported="false" />
 
+        <activity
+            android:name=".UsersManagementActivity"
+            android:theme="@style/Theme.SoftwareAccountingAndroid"
+            android:exported="false" />
+
+        <activity
+            android:name=".SoftwareManagementActivity"
+            android:theme="@style/Theme.SoftwareAccountingAndroid"
+            android:exported="false" />
+
+        <activity
+            android:name=".DevicesManagementActivity"
+            android:theme="@style/Theme.SoftwareAccountingAndroid"
+            android:exported="false" />
+
+        <activity
+            android:name=".DepartmentsManagementActivity"
+            android:theme="@style/Theme.SoftwareAccountingAndroid"
+            android:exported="false" />
+
+        <activity
+            android:name=".DevelopersManagementActivity"
+            android:theme="@style/Theme.SoftwareAccountingAndroid"
+            android:exported="false" />
+
+        <activity
+            android:name=".RequestsManagementActivity"
+            android:theme="@style/Theme.SoftwareAccountingAndroid"
+            android:exported="false" />
+
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".UserMainActivity" />
         <activity android:name=".AdminMainActivity" />

@@ -75,16 +75,14 @@ class RegistrationActivity : AppCompatActivity() {
         lifecycleScope.launch {
             // Загружаем отделы из базы данных
             val departmentRepo = ServiceLocator.getDepartmentRepository()
-            departmentRepo.getAllDepartments().collect { departmentsList ->
-                departments = departmentsList
-                val departmentNames = departmentsList.map { it.name }
-                departmentAdapter.clear()
-                departmentAdapter.addAll(departmentNames)
+            departments = departmentRepo.getAllDepartments()
+            val departmentNames = departments.map { it.name }
+            departmentAdapter.clear()
+            departmentAdapter.addAll(departmentNames)
 
-                // Если отделы загружены, выбираем первый по умолчанию
-                if (departmentNames.isNotEmpty()) {
-                    binding.actvDepartment.setText(departmentNames[0], false)
-                }
+            // Если отделы загружены, выбираем первый по умолчанию
+            if (departmentNames.isNotEmpty()) {
+                binding.actvDepartment.setText(departmentNames[0], false)
             }
         }
     }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gray">
+    android:background="@color/white">
 
     <!-- App Bar -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -93,36 +94,45 @@
                         android:layout_marginBottom="12dp"
                         android:drawablePadding="8dp" />
 
-                    <!-- Грид с кнопками управления -->
-                    <!--<androidx.gridlayout.widget.GridLayout
+                    <!-- Заменяем LinearLayout на GridLayout -->
+                    <androidx.gridlayout.widget.GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:columnCount="2"
+                        app:columnCount="2"
                         app:rowOrderPreserved="false"
-                        app:columnOrderPreserved="false">-->
+                        app:columnOrderPreserved="false"
+                        tools:ignore="MissingClass"
+                        android:clickable="false"
+                        android:focusable="false">
 
                         <!-- Пользователи -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardUsers"
                             android:layout_width="0dp"
                             android:layout_height="100dp"
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            >
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="fill"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center"
-                                android:background="?selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="16dp">
+                                android:padding="16dp"
+                                android:clickable="false"
+                                android:focusable="false">
 
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
+                                    android:src="@drawable/ic_users"
                                     app:tint="@color/white" />
 
                                 <TextView
@@ -132,7 +142,9 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:layout_marginTop="8dp"
-                                    android:gravity="center" />
+                                    android:gravity="center"
+                                    android:clickable="false"
+                                    android:focusable="false" />
 
                             </LinearLayout>
 
@@ -140,26 +152,32 @@
 
                         <!-- Программы -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardSoftware"
                             android:layout_width="0dp"
                             android:layout_height="100dp"
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            >
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="fill"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center"
-                                android:background="?selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="16dp">
+                                android:padding="16dp"
+                                android:clickable="false"
+                                android:focusable="false">
 
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
+                                    android:src="@drawable/ic_software"
                                     app:tint="@color/white" />
 
                                 <TextView
@@ -169,7 +187,9 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:layout_marginTop="8dp"
-                                    android:gravity="center" />
+                                    android:gravity="center"
+                                    android:clickable="false"
+                                    android:focusable="false" />
 
                             </LinearLayout>
 
@@ -177,27 +197,32 @@
 
                         <!-- Устройства -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardDevices"
                             android:layout_width="0dp"
                             android:layout_height="100dp"
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            android:layout_columnWeight="1"
-                            android:layout_rowWeight="1">
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="fill"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center"
-                                android:background="?selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="16dp">
+                                android:padding="16dp"
+                                android:clickable="false"
+                                android:focusable="false">
 
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
+                                    android:src="@drawable/ic_devices"
                                     app:tint="@color/white" />
 
                                 <TextView
@@ -207,7 +232,9 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:layout_marginTop="8dp"
-                                    android:gravity="center" />
+                                    android:gravity="center"
+                                    android:clickable="false"
+                                    android:focusable="false" />
 
                             </LinearLayout>
 
@@ -215,27 +242,32 @@
 
                         <!-- Отделы -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardDepartments"
                             android:layout_width="0dp"
                             android:layout_height="100dp"
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            android:layout_columnWeight="1"
-                            android:layout_rowWeight="1">
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="fill"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center"
-                                android:background="?selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="16dp">
+                                android:padding="16dp"
+                                android:clickable="false"
+                                android:focusable="false">
 
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
+                                    android:src="@drawable/ic_department"
                                     app:tint="@color/white" />
 
                                 <TextView
@@ -245,7 +277,9 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:layout_marginTop="8dp"
-                                    android:gravity="center" />
+                                    android:gravity="center"
+                                    android:clickable="false"
+                                    android:focusable="false" />
 
                             </LinearLayout>
 
@@ -253,27 +287,32 @@
 
                         <!-- Производители -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardDevelopers"
                             android:layout_width="0dp"
                             android:layout_height="100dp"
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            android:layout_columnWeight="1"
-                            android:layout_rowWeight="1">
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="fill"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center"
-                                android:background="?selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="16dp">
+                                android:padding="16dp"
+                                android:clickable="false"
+                                android:focusable="false">
 
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
+                                    android:src="@drawable/ic_developer"
                                     app:tint="@color/white" />
 
                                 <TextView
@@ -283,7 +322,9 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:layout_marginTop="8dp"
-                                    android:gravity="center" />
+                                    android:gravity="center"
+                                    android:clickable="false"
+                                    android:focusable="false" />
 
                             </LinearLayout>
 
@@ -291,27 +332,32 @@
 
                         <!-- Заявки -->
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardRequests"
                             android:layout_width="0dp"
                             android:layout_height="100dp"
                             android:layout_margin="8dp"
                             app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
-                            android:layout_columnWeight="1"
-                            android:layout_rowWeight="1">
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="fill"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="vertical"
                                 android:gravity="center"
-                                android:background="?selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="16dp">
+                                android:padding="16dp"
+                                android:clickable="false"
+                                android:focusable="false">
 
                                 <ImageView
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
+                                    android:src="@drawable/ic_requests"
                                     app:tint="@color/white" />
 
                                 <TextView
@@ -321,13 +367,15 @@
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:layout_marginTop="8dp"
-                                    android:gravity="center" />
+                                    android:gravity="center"
+                                    android:clickable="false"
+                                    android:focusable="false" />
 
                             </LinearLayout>
 
                         </com.google.android.material.card.MaterialCardView>
 
-                    <!--</androidx.gridlayout.widget.GridLayout>-->
+                    </androidx.gridlayout.widget.GridLayout>
 
                 </LinearLayout>
 

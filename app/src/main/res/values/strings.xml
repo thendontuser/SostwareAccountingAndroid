@@ -4,4 +4,5 @@
     <string name="password_hint">Пароль</string>
     <string name="login_button">Войти</string>
     <string name="register_link">Нет аккаунта? Зарегистрироваться</string>
+    <string name="add_user">Добавить пользователя</string>
 </resources>

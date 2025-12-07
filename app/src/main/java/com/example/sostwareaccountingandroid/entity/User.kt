@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ForeignKey
-import kotlinx.android.parcel.Parcelize
 
 @Entity(
     tableName = "users",

@@ -9,7 +9,6 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun registerUser(user: User): Result<Long> {
         return try {
-            // Проверка уникальности логина
             val existingUser = userDao.getUserByLogin(user.login)
             if (existingUser != null) {
                 Result.failure(Exception("Пользователь с таким логином уже существует"))
@@ -35,8 +34,13 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun getUsersByDepartment(departmentId: Long): Flow<List<User>> {
+    fun getUsersByDepartment(departmentId: Long?): Flow<List<User>> {
+        println("DEBUG UserRepository: Запрос пользователей, departmentId=$departmentId")
         return userDao.getUsersByDepartment(departmentId)
+    }
+
+    fun getAllUsers(): Flow<List<User>> {
+        return userDao.getAllUsers()
     }
 
     suspend fun getUserById(userId: Long): User? {
@@ -50,5 +54,9 @@ class UserRepository(private val userDao: UserDao) {
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    suspend fun deleteUser(user: User) {
+        userDao.delete(user)
     }
 }

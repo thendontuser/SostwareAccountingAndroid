@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.sostwareaccountingandroid.DataBase.AppDatabase
 import com.example.sostwareaccountingandroid.repository.AuthRepository
 import com.example.sostwareaccountingandroid.repository.DepartmentRepository
+import com.example.sostwareaccountingandroid.repository.DeveloperRepository
 import com.example.sostwareaccountingandroid.repository.DeviceRepository
 import com.example.sostwareaccountingandroid.repository.InstallationRequestRepository
 import com.example.sostwareaccountingandroid.repository.SoftwareRepository
@@ -19,6 +20,7 @@ object ServiceLocator {
     private var installationRequestRepository: InstallationRequestRepository? = null
     private var deviceRepository: DeviceRepository? = null
     private var softwareRepository: SoftwareRepository? = null
+    private var developerRepository: DeveloperRepository? = null
 
     fun initialize(context: Context) {
         database = AppDatabase.getInstance(context)
@@ -32,6 +34,11 @@ object ServiceLocator {
             database!!.installationRequestDao())
         deviceRepository = DeviceRepository(database!!.deviceDao())
         softwareRepository = SoftwareRepository(database!!.softwareDao())
+        developerRepository = DeveloperRepository(database!!.developerDao())
+    }
+
+    fun getDataBase(): AppDatabase {
+        return database ?: throw IllegalStateException("ServiceLocator not initialized")
     }
 
     fun getAuthRepository(): AuthRepository {
@@ -60,6 +67,10 @@ object ServiceLocator {
 
     fun getSoftwareRepository(): SoftwareRepository {
         return softwareRepository ?: throw java.lang.IllegalStateException("ServiceLocator not initialized")
+    }
+
+    fun getDeveloperRepository(): DeveloperRepository {
+        return developerRepository ?: throw java.lang.IllegalStateException("ServiceLocator not initialized")
     }
 }
 

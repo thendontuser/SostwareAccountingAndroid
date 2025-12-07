@@ -21,7 +21,7 @@ interface DepartmentDao {
     suspend fun delete(department: Department)
 
     @Query("SELECT * FROM departments ORDER BY name")
-    fun getAllDepartments(): Flow<List<Department>>
+    suspend fun getAllDepartments(): List<Department>
 
     @Query("SELECT * FROM departments WHERE id = :departmentId")
     suspend fun getDepartmentById(departmentId: Long): Department?

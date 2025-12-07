@@ -21,7 +21,7 @@ interface DeveloperDao {
     suspend fun delete(developer: Developer)
 
     @Query("SELECT * FROM developers ORDER BY name")
-    fun getAllDevelopers(): Flow<List<Developer>>
+    suspend fun getAllDevelopers(): List<Developer>
 
     @Query("SELECT * FROM developers WHERE id = :developerId")
     suspend fun getDeveloperById(developerId: Long): Developer?

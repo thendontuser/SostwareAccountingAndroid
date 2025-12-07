@@ -26,8 +26,20 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE login = :login")
     suspend fun getUserByLogin(login: String): User?
 
-    @Query("SELECT * FROM users WHERE departmentId = :departmentId")
-    fun getUsersByDepartment(departmentId: Long): Flow<List<User>>
+    @Query("SELECT * FROM users WHERE (:departmentId IS NULL) OR (departmentId = :departmentId) OR (:departmentId = 0)")
+    fun getUsersByDepartment(departmentId: Long?): Flow<List<User>>
+
+    @Query("""
+        SELECT * FROM users 
+        WHERE 
+            (:departmentId IS NULL AND departmentId IS NULL) OR 
+            (departmentId = :departmentId) OR 
+            (:departmentId = 0)
+    """)
+    fun getUsersByDepartment2(departmentId: Long?): Flow<List<User>>
+
+    @Query("SELECT * FROM users")
+    fun getAllUsers(): Flow<List<User>>
 
     @Query("SELECT * FROM users WHERE role = :role")
     fun getUsersByRole(role: String): Flow<List<User>>
