@@ -1,142 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:orientation="vertical"
+    android:background="@color/white">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- App Bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:title="Управление разработчиками"
+        app:titleTextColor="@color/black" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            app:title="Управление производителями"
-            app:titleTextColor="@color/black" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="4dp"
-            android:layout_marginTop="-8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <!-- Статистика -->
-                <TextView
-                    android:id="@+id/tvStats"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Производителей: 0 | Программ: 0 | ООО: 0 | ИП: 0 | Корпораций: 0 | Ср. программ: 0"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center" />
-
-                <!-- Фильтры по типу компании -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnFilterAll"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Все"
-                        android:layout_marginEnd="2dp"
-                        style="@style/Widget.Material3.Button.OutlinedButton" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnFilterOoo"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="ООО"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        style="@style/Widget.Material3.Button.OutlinedButton" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnFilterIp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="ИП"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginEnd="2dp"
-                        style="@style/Widget.Material3.Button.OutlinedButton" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnFilterCorporation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Корпорация"
-                        android:layout_marginStart="2dp"
-                        style="@style/Widget.Material3.Button.OutlinedButton" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <!-- Статистика и фильтры -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvDevelopers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+            <!-- Статистика -->
             <TextView
-                android:id="@+id/tvEmptyState"
+                android:id="@+id/tvStats"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Производители не найдены"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"
+                android:text="Отделов: 0 | Сотрудников: 0 | Устройств: 0 | Ср. сотрудников: 0 | Ср. устройств: 0"
+                android:textSize="12sp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center" />
+
+            <!-- Кнопки управления -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </com.google.android.material.card.MaterialCardView>
 
+    <!-- Основной контент -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDevelopers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tvEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Разработчики не найдены"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <!-- FAB внизу справа -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddDeveloper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/white"
+        app:backgroundTint="@color/purple_700"
         app:tint="@color/white"
-        app:layout_anchor="@id/rvDevelopers"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:srcCompat="@drawable/ic_add_white_24dp"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

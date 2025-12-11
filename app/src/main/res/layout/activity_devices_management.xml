@@ -117,6 +117,7 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         app:backgroundTint="@color/purple_700"
-        app:tint="@color/white" />
+        app:tint="@color/white"
+        app:srcCompat="@drawable/ic_add_white_24dp"/>
 
 </LinearLayout>

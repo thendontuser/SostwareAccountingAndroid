@@ -75,23 +75,6 @@ class DepartmentsManagementActivity : AppCompatActivity() {
             println("DEBUG: Нажата кнопка добавления отдела")
             showAddDepartmentDialog()
         }
-
-        binding.btnFilterAll.setOnClickListener {
-            println("DEBUG: Нажата кнопка 'Все'")
-            lifecycleScope.launch {
-                loadDepartments()
-            }
-        }
-
-        binding.btnSortByName.setOnClickListener {
-            println("DEBUG: Нажата кнопка сортировки по имени")
-            sortDepartmentsByName()
-        }
-
-        binding.btnSortByUsers.setOnClickListener {
-            println("DEBUG: Нажата кнопка сортировки по сотрудникам")
-            sortDepartmentsByUserCount()
-        }
     }
 
     private suspend fun loadDepartments() {

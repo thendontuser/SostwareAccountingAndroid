@@ -61,26 +61,6 @@ class DevelopersManagementActivity : AppCompatActivity() {
             println("DEBUG: Нажата кнопка добавления производителя")
             showAddDeveloperDialog()
         }
-
-        binding.btnFilterAll.setOnClickListener {
-            println("DEBUG: Нажата кнопка 'Все'")
-            loadDevelopers()
-        }
-
-        binding.btnFilterOoo.setOnClickListener {
-            println("DEBUG: Нажата кнопка 'ООО'")
-            filterByCompanyType("ООО")
-        }
-
-        binding.btnFilterIp.setOnClickListener {
-            println("DEBUG: Нажата кнопка 'ИП'")
-            filterByCompanyType("ИП")
-        }
-
-        binding.btnFilterCorporation.setOnClickListener {
-            println("DEBUG: Нажата кнопка 'Корпорация'")
-            filterByCompanyType("Корпорация")
-        }
     }
 
     private fun loadDevelopers() {

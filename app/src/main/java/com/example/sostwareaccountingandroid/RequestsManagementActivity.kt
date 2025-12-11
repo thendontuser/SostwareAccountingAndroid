@@ -53,24 +53,13 @@ class RequestsManagementActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.btnFilterAll.setOnClickListener {
-            loadRequests()
-        }
 
         binding.btnFilterPending.setOnClickListener {
             filterByStatus("На рассмотрении")
         }
 
-        binding.btnFilterApproved.setOnClickListener {
-            filterByStatus("Установлено")
-        }
-
         binding.btnFilterRejected.setOnClickListener {
             filterByStatus("Отклонено")
-        }
-
-        binding.btnSearch.setOnClickListener {
-            performSearch()
         }
     }
 
@@ -166,25 +155,6 @@ class RequestsManagementActivity : AppCompatActivity() {
         }
     }
 
-    private fun performSearch() {
-        val query = binding.etSearch.text.toString().trim()
-        if (query.isEmpty()) {
-            loadRequests()
-            return
-        }
-
-        // Поиск по имени пользователя, названию ПО или устройства
-        val currentList = requestsAdapter.currentList.toMutableList()
-        val filteredList = currentList.filter {
-            it.userName.contains(query, true) ||
-                    it.softwareName.contains(query, true) ||
-                    it.deviceName.contains(query, true)
-        }
-
-        requestsAdapter.submitList(filteredList)
-        updateEmptyState(filteredList.isEmpty())
-    }
-
     private fun updateStatistics(requestsWithDetails: List<RequestFullDetails>) {
         val totalCount = requestsWithDetails.size
         val pendingCount = requestsWithDetails.count { it.request.status == "На рассмотрении" }
@@ -272,26 +242,26 @@ class RequestsManagementActivity : AppCompatActivity() {
         val requestDate = dateFormat.format(Date(requestFullDetails.request.requestDate))
 
         val detailsText = """
-            === ДЕТАЛИ ЗАЯВКИ ===
+            ДЕТАЛИ ЗАЯВКИ
             
             Статус: ${requestFullDetails.request.status}
             Дата подачи: $requestDate
             
-            === ПОЛЬЗОВАТЕЛЬ ===
+            ПОЛЬЗОВАТЕЛЬ
             ФИО: ${requestFullDetails.userName}
             Логин: ${requestFullDetails.userLogin}
             Роль: ${requestFullDetails.userRole}
             
-            === ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ===
+            ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ
             Название: ${requestFullDetails.softwareName}
             Версия: ${requestFullDetails.softwareVersion}
             
-            === УСТРОЙСТВО ===
+            УСТРОЙСТВО
             Название: ${requestFullDetails.deviceName}
             ОС: ${requestFullDetails.deviceOS}
             RAM: ${requestFullDetails.deviceRAM} ГБ
             
-            === КОММЕНТАРИИ ===
+            КОММЕНТАРИИ
             Пользователь: ${requestFullDetails.request.comment ?: "нет"}
         """.trimIndent()
 
@@ -321,7 +291,7 @@ class RequestsManagementActivity : AppCompatActivity() {
                     }
 
                     val userDetails = """
-                        === ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ ===
+                        ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ
                         
                         ФИО: ${user.getFullName()}
                         Логин: ${user.login}
