@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.sostwareaccountingandroid.databinding.ActivityAdminMainBinding
 import com.example.sostwareaccountingandroid.di.ServiceLocator
-import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
 
 class AdminMainActivity : AppCompatActivity() {
@@ -68,11 +67,6 @@ class AdminMainActivity : AppCompatActivity() {
             println("DEBUG: Нажата кнопка полного отчета")
             generateFullReport()
         }
-
-        binding.btnDepartmentReport.setOnClickListener {
-            println("DEBUG: Нажата кнопка отчета по отделу")
-            generateDepartmentReport()
-        }
     }
 
     private fun debugViewIds() {
@@ -83,8 +77,7 @@ class AdminMainActivity : AppCompatActivity() {
             R.id.cardDepartments,
             R.id.cardDevelopers,
             R.id.cardRequests,
-            R.id.btnFullReport,
-            R.id.btnDepartmentReport
+            R.id.btnFullReport
         )
 
         ids.forEach { id ->
@@ -184,13 +177,9 @@ class AdminMainActivity : AppCompatActivity() {
 
         // Получаем отделы
         val departments = departmentRepository.getAllDepartments()
-        //val departments = mutableListOf<com.example.sostwareaccountingandroid.entity.Department>()
-        /*departmentsFlow.collect { departmentsList ->
-            departments.addAll(departmentsList)
-        }*/
 
         return """
-            === ПОЛНЫЙ ОТЧЕТ ПО УЧЕТУ ПО ===
+            ПОЛНЫЙ ОТЧЕТ ПО УЧЕТУ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ
             
             Общая статистика:
             • Всего заявок: $totalRequests
@@ -205,11 +194,6 @@ class AdminMainActivity : AppCompatActivity() {
             
             Отчет сформирован: ${java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format(java.util.Date())}
         """.trimIndent()
-    }
-
-    private fun generateDepartmentReport() {
-        // TODO: Реализовать выбор отдела и генерацию отчета
-        Toast.makeText(this, "Выбор отдела для отчета", Toast.LENGTH_SHORT).show()
     }
 
     private fun showReportDialog(report: String) {
