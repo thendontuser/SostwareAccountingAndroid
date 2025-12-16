@@ -19,7 +19,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="32dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <!-- Фамилия -->
         <com.google.android.material.textfield.TextInputLayout
@@ -145,7 +145,7 @@
             android:textSize="16sp"
             android:layout_marginBottom="16dp"
             app:cornerRadius="12dp"
-            android:backgroundTint="@color/white" />
+            android:backgroundTint="@color/button_background" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"

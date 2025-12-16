@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    android:background="@color/white">
+    android:background="@color/surface_light">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +17,7 @@
             android:layout_height="120dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
-            android:layout_marginBottom="40dp">
-        </ImageView>
+            android:layout_marginBottom="40dp" />
 
         <!-- Заголовок -->
         <TextView
@@ -29,14 +28,18 @@
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="40dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/text_primary_light" />
 
         <!-- Поле логина -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:errorEnabled="true">
+            app:errorEnabled="true"
+            app:hintTextColor="@color/text_secondary_light"
+            app:boxStrokeColor="@color/text_secondary_light"
+            app:errorTextColor="@color/error"
+            android:textColorHint="@color/text_secondary_light">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etLogin"
@@ -44,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/login_hint"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/text_primary_light" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,7 +58,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             app:errorEnabled="true"
-            app:passwordToggleEnabled="true">
+            app:passwordToggleEnabled="true"
+            app:hintTextColor="@color/text_secondary_light"
+            app:boxStrokeColor="@color/text_secondary_light"
+            app:errorTextColor="@color/error"
+            app:passwordToggleTint="@color/text_secondary_light"
+            android:textColorHint="@color/text_secondary_light">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPassword"
@@ -62,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password_hint"
                 android:inputType="textPassword"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/text_primary_light" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +85,8 @@
             android:textSize="16sp"
             android:layout_marginBottom="24dp"
             app:cornerRadius="12dp"
-            android:backgroundTint="@color/white" />
+            android:textColor="@color/white"
+            app:backgroundTint="@color/button_background" />
 
         <!-- Ссылка на регистрацию -->
         <TextView
@@ -84,7 +95,7 @@
             android:layout_height="wrap_content"
             android:text="@string/register_link"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/link_color"
             android:textStyle="bold"
             android:padding="16dp"
             android:clickable="true"
